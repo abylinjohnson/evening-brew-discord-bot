@@ -51,7 +51,7 @@ client.on("messageCreate", (message) => {
     }
   }
 });
-let scheduledMessage = new cron.CronJob('00 00 17 * * *', () => {
+let scheduledMessage = new cron.CronJob('00 45 3 * * *', () => {
   // This runs every day at 17:00:00, you can do anything you want
   NewsData();
 });
