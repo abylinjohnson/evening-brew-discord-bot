@@ -5,7 +5,8 @@ const PREFIX = "$";
 const cron = require('cron')
 const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI(process.env.NEWS_KEY);
-var data = "";
+var time = new Date();
+var channelID = ["939195496961024030"]
 const NewsData = () => {
   newsapi.v2
     .topHeadlines({
@@ -14,7 +15,7 @@ const NewsData = () => {
     })
     .then((res) => {
       data = res.articles;
-      for (let i = 0; i < 5; i++) {
+      for (var i = 0; i < 5; i++) {
         const file = new MessageAttachment(data[i].urlToImage);
         const exampleEmbed = new MessageEmbed()
           .setTitle(data[i].title)
@@ -22,8 +23,9 @@ const NewsData = () => {
           .setImage(data[i].urlToImage)
           .setURL(data[i].url)
           .setColor("BLUE");
+        for(var j=0;j< channelID.length;j++)
         client.channels.cache
-          .get("939195496961024030")
+          .get(channelID[j])
           .send({ embeds: [exampleEmbed] });
       }
     });
@@ -31,6 +33,7 @@ const NewsData = () => {
 
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  console.log(time.getHours()+":"+time.getMinutes());
     
 });
 client.on("messageCreate", (message) => {
@@ -40,8 +43,11 @@ client.on("messageCreate", (message) => {
       .trim()
       .substring(PREFIX.length)
       .split(" ");
-    if (CMD_NAME == "news") {
+    if (CMD_NAME == "news" && message.author.id === "763773932817743883") {
       NewsData();
+    }
+    if(CMD_NAME == "add"){
+      channelID.push(args[0]);
     }
   }
 });
