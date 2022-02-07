@@ -6,7 +6,7 @@ const cron = require('cron')
 const NewsAPI = require("newsapi");
 const newsapi = new NewsAPI(process.env.NEWS_KEY);
 var time = new Date();
-var channelID = ["939195496961024030"]
+var channelID = ["939195496961024030","939445586262896700"]
 const NewsData = () => {
   newsapi.v2
     .topHeadlines({
